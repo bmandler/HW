@@ -1,0 +1,31 @@
+apiVersion: extensions/v1beta1
+kind: Deployment
+metadata:
+  labels:
+    app: hwm
+  name: hwm
+spec:
+  replicas: 1
+  selector:
+    matchLabels:
+      app: hwm
+  strategy:
+    rollingUpdate:
+      maxSurge: 1
+      maxUnavailable: 1
+    type: RollingUpdate
+  revisionHistoryLimit: 5
+  template:
+    metadata:
+      labels:
+        app: hwm
+    spec:
+      containers:
+      - image: mandler/explore:IMAGE_TAG
+        imagePullPolicy: Always
+        name: hwm
+        ports:
+        - containerPort: 8080
+          name: http
+          protocol: TCP
+
